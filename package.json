@@ -1,0 +1,20 @@
+{
+  "name": "tsukasa",
+  "version": "1.0.0",
+  "main": "main.ts",
+  "license": "GPLv3",
+  "scripts": {
+    "start": "nodemon src/main.ts"
+  },
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.1",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^12.12.14"
+  }
+}
