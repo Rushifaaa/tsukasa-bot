@@ -1,4 +1,5 @@
 import * as Discord from 'discord.js';
+import commands from './commands/commands';
 require('dotenv').config();
 
 const tsukasa = new Discord.Client();
@@ -6,7 +7,7 @@ const tsukasa = new Discord.Client();
 
 tsukasa.on('ready', () => {
     console.log(`Logged in as ${tsukasa.user.tag}`);
-    
+
     tsukasa.user.setPresence({
         status: "dnd",
         afk: true,
@@ -19,6 +20,7 @@ tsukasa.on('ready', () => {
 });
 
 tsukasa.on('message', msg => {
+    new commands(msg).commands()
 });
 
 tsukasa.login(process.env.TOKEN);
