@@ -1,8 +1,9 @@
-import * as Discord from 'discord.js';
+import { Client, Role } from 'discord.js';
 import commands from './commands/commands';
+
 require('dotenv').config();
 
-const tsukasa = new Discord.Client();
+const tsukasa = new Client();
 
 
 tsukasa.on('ready', () => {
@@ -19,8 +20,14 @@ tsukasa.on('ready', () => {
     });
 });
 
+tsukasa.on('guildMemberAdd', member => {
+   member.addRole("508733818547601447").then(() => {
+       console.log("Added Role to user" + member.displayName);
+   });
+});
+
 tsukasa.on('message', msg => {
-    new commands(msg).commands()
+    new commands(msg, tsukasa).commands()
 });
 
 tsukasa.login(process.env.TOKEN);

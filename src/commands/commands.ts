@@ -5,18 +5,21 @@ export default class commands {
     msg: Discord.Message;
     prefix: string = "†";
 
-    constructor(msg: Discord.Message) {
+    constructor(msg: Discord.Message, client: Discord.Client) {
         this.msg = msg;
     }
 
     public commands() {
         this.ping();
-        
     }
 
     private ping() {
         if (this.msg.content == this.prefix + "ping") {
-            this.msg.reply("pong");
+            this.msg.reply("pong!");
         }
+    }
+
+    private addRole() {
+        
     }
 }
