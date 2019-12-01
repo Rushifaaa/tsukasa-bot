@@ -23,6 +23,8 @@ tsukasa.on('ready', () => {
 tsukasa.on('guildMemberAdd', member => {
    member.addRole("508733818547601447").then(() => {
        console.log("Added Role to user" + member.displayName);
+   }).catch(err => {
+       console.log("An error occurred! -> " + err)
    });
 });
 
