@@ -4,7 +4,7 @@
   "main": "main.ts",
   "license": "GPLv3",
   "scripts": {
-    "start": "nodemon src/main.ts"
+    "start": "ts-node src/main.ts"
   },
   "dependencies": {
     "discord.js": "^11.5.1",
