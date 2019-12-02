@@ -8,7 +8,10 @@ const quit = (args: string[], msg: Message) => {
 
         console.log();
 
-        if (msg.author.id === config.owner_id) return 1;
+        if (msg.author.id === config.owner_id) {
+            msg.member.voiceChannel.leave();
+            return 1;
+        }
 
         msg.reply("You dont have permission for this command!");
     } catch (error) {

@@ -5,7 +5,7 @@ import disconnect from "./src/commands/disconnect";
 
 export class Command {
 
-    constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message) => number | void) {
+    constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message) => number | Promise<any> | void) {
         //EMPTY....
     }
 
