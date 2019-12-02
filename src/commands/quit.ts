@@ -5,7 +5,7 @@ import { readFileSync } from 'fs';
 const quit = (args: string[], msg: Message) => {
     try {
         const config: TsukasaConfig = JSON.parse(readFileSync(configFilePath).toString());
-        const user = msg.guild.members.find(m => m.id === config.owner_id);
+
         console.log();
 
         if (msg.author.id === config.owner_id) return 1;
