@@ -15,6 +15,7 @@
     "nodemon": "^2.0.1",
     "opusscript": "^0.0.7",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "ytdl": "^1.0.1"
   }
 }
