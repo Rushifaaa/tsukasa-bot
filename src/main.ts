@@ -1,6 +1,6 @@
 import { Client } from 'discord.js';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { commands } from './commands/command';
+import { commands } from '../command';
 
 require('dotenv').config();
 
@@ -15,7 +15,7 @@ interface TsukasaConfig {
 tsukasa.on('ready', () => {
     console.log(`Logged in as ${tsukasa.user.tag}`);
 
-    //TODO: Make json file for every server
+    //TODO: Make json file for each server that uses Bot
 
     tsukasa.user.setPresence({
         status: "dnd",
@@ -37,20 +37,26 @@ tsukasa.on('guildMemberAdd', member => {
 });
 
 tsukasa.on('message', msg => {
-    var args = msg.content.slice(prefix.length).trim().split(/ +/s);
-    var commandName = args.shift().toLowerCase();
+    if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
+    let args = msg.content.slice(prefix.length).trim().split(/ +/s);
+    let commandName = args.shift().toLowerCase();
+
+    let commandFound = false;
     for (const cmd of commands) {
-        if(cmd.name === commandName) {
+        if (cmd.name == commandName || cmd.aliases.includes(commandName)) {
+            commandFound = true
             cmd.invoke(args, msg);
             break;
         }
     }
-
+    if (!commandFound) {
+        msg.reply("this command is not Supported. If you wish to support this command, write me an issue on GitHub -> †git ");
+    }
 });
 
 async function startServer() {
-    var newConfig: TsukasaConfig = {
+    let newConfig: TsukasaConfig = {
         token: "TOKEN"
     };
 
