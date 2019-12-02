@@ -41,8 +41,8 @@ Because I like the name :P
 * Commands
   - [x] Ping
   - [x] Git (Shows this repository)
-  - [-] Join -> In Progress
-  - [-] Disconnect -> In Progress
+  - [x] Join
+  - [x] Disconnect
   - [ ] Play (Youtube URL) 
   - [ ] Clear Chat
   - [ ] Add/Remove Role
