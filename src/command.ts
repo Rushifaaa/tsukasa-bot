@@ -4,6 +4,7 @@ import join from "./commands/join";
 import disconnect from "./commands/disconnect";
 import git from "./commands/git";
 import quit from "./commands/quit";
+import play from "./commands/play";
 
 export class Command {
 
@@ -21,6 +22,7 @@ export class Command {
 export const commands = [
     new Command("ping", [], ping),
     new Command("join", [], join),
+    new Command("play", [], play),
     new Command("disconnect", ["dc"], disconnect),
     new Command("git", ["dev", "developer"], git),
     new Command("quit", ["q", "destroy", "terminate"], quit)

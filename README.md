@@ -43,7 +43,7 @@ Because I like the name :P
   - [x] Git (Shows this repository)
   - [x] Join
   - [x] Disconnect
-  - [ ] Play (Youtube URL) 
+  - [-] Play (Youtube URL) -> In Progress
   - [ ] Clear Chat
   - [ ] Add/Remove Role
   - [ ] Kick
@@ -52,7 +52,7 @@ Because I like the name :P
   - [ ] Terminate (Developer Only)
   
 * Background Tasks
-  - [-] Auto Role (User joined Server) -> In Progress
+  - [x] Auto Role (User joined Server) *- can be configured in the config.json -* 
   
 ## Getting Started
 

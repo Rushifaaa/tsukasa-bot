@@ -2,8 +2,6 @@ import { Client } from 'discord.js';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { commands } from './command';
 
-require('dotenv').config();
-
 const tsukasa = new Client();
 export const configFilePath = __dirname + "/../config.json";
 let tsukasaConfig: TsukasaConfig = null;
