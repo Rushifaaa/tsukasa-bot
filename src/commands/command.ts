@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-//import {ping} from "./ping";
+import ping from "./ping";
 
 export class Command {
 
@@ -9,9 +9,11 @@ export class Command {
 
     invoke(args: string[], msg: Message): number {
         const ret = this.func(args, msg);
-        if (typeof (ret) !== "number") return 0;
+        if(typeof(ret) !== "number") return 0;
         return ret;
     }
 }
 
-export const commands = [new Command("ping", [], (args: string[], msg: Message) => { msg.reply("pong"); })];
+export const commands = [
+    new Command("ping", [], ping)
+];

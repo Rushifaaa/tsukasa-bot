@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
-import { Command } from "./command";
+import { Message } from 'discord.js';
 
-/*const ping = ;
-
-export default ping;*/
+const ping = (args: string[], msg: Message) => {
+    msg.reply("pong <3");
+}
+export default ping;
