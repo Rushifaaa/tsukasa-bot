@@ -1,11 +1,12 @@
-import { Client, Role } from 'discord.js';
-import commands from './commands/commands';
-import { readdirSync, readdir, writeFile, readFile, statSync, existsSync, writeFileSync, readFileSync } from 'fs';
+import { Client } from 'discord.js';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { commands } from './commands/command';
 
 require('dotenv').config();
 
 const tsukasa = new Client();
 const configFilePath = __dirname + "/../config.json";
+const prefix = "†";
 
 interface TsukasaConfig {
     token: string;
@@ -36,7 +37,16 @@ tsukasa.on('guildMemberAdd', member => {
 });
 
 tsukasa.on('message', msg => {
-    new commands(msg, tsukasa).commands()
+    var args = msg.content.slice(prefix.length).trim().split(/ +/s);
+    var commandName = args.shift().toLowerCase();
+
+    for (const cmd of commands) {
+        if(cmd.name === commandName) {
+            cmd.invoke(args, msg);
+            break;
+        }
+    }
+
 });
 
 async function startServer() {
