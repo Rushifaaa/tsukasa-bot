@@ -47,27 +47,28 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
         return;
     }
 
-    console.log(guild.songs);
-
-    playSong(guild, voiceChannel);
+    playSong(guild, voiceChannel, msg);
 
 }
 
-function playSong(guild: GuildObject, vc: VoiceChannel) {
+function playSong(guild: GuildObject, vc: VoiceChannel, msg: Message) {
     if (guild.dispatcher) {
         return;
     }
 
-    guild.dispatcher = vc.connection.playStream(ytdl(guild.songs[0].url))
+    guild.dispatcher = vc.connection.playStream(ytdl(guild.songs[0].url, { filter: 'audioonly' }))
         .on('end', () => {
 
             guild.songs.shift();
-
+            guild.dispatcher = null;
             if (guild.songs.length === 0) {
-                guild.dispatcher = null
+                msg.reply("No more songs, please give links! :heart:");
             } else {
-                playSong(guild, vc);
+                playSong(guild, vc, msg);
             }
+        })
+        .on('start', () => {
+            msg.reply("Now playing ->" + guild.songs[0].title);
         })
         .on('error', error => {
             console.log(error);
