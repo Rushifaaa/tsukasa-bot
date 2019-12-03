@@ -39,18 +39,20 @@ Because I like the name :P
   - [ ] Wiki
   
 * Commands
-  - [ ] Ping
-  - [ ] Join
-  - [ ] Disconnect
-  - [ ] Play (Youtube URL)
+  - [x] Ping
+  - [x] Git (Shows this repository)
+  - [x] Join
+  - [x] Disconnect
+  - [-] Play (Youtube URL) -> In Progress
   - [ ] Clear Chat
   - [ ] Add/Remove Role
   - [ ] Kick
   - [ ] Ban
   - [ ] Mute
+  - [ ] Terminate (Developer Only)
   
 * Background Tasks
-  - [ ] Auto Role (User joined Server)
+  - [x] Auto Role (User joined Server) *- can be configured in the config.json -* 
   
 ## Getting Started
 
