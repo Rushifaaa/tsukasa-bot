@@ -27,7 +27,7 @@
 
 
 ## About the Project
-Hey.. I just wanted to make a Discord Bot so I just learnd typescript in my teaching about a month ago, so I thought why not user typescript.  
+Hey.. I just wanted to make a Discord Bot so I just learned typescript in my teaching about a month ago, so I thought why not use typescript.  
 It should be a simple Discord Bot that is Open Source under the [GPL-3.0](./LICENSE) so you can use it, but please read the [LICENSE](./LICENSE) first.
 
 
