@@ -55,7 +55,8 @@ Because I like the name :P
 ## Getting Started
 
 **NEED TO KNOW**  
-*You need [yarn](https://yarnpkg.com/en/)!*  
+*You need [yarn](https://yarnpkg.com/en/)!*
+*Please install **ffmpeg** too please!*
 
 So if you decided to host your own Bot you need a Bot Token **-I assume you know how to get it, if not google it or duck it :P**
 
