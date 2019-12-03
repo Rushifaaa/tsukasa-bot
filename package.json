@@ -1,6 +1,6 @@
 {
   "name": "tsukasa",
-  "version": "1.6.0",
+  "version": "0.7.0",
   "main": "main.ts",
   "license": "GPLv3",
   "scripts": {

@@ -1,6 +1,5 @@
 import { Message, VoiceChannel, StreamDispatcher } from 'discord.js';
 import ytdl = require('ytdl-core');
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import { GuildObject } from '../main';
 
 export interface SongQueue {
@@ -62,13 +61,13 @@ function playSong(guild: GuildObject, vc: VoiceChannel, msg: Message) {
             guild.songs.shift();
             guild.dispatcher = null;
             if (guild.songs.length === 0) {
-                msg.reply("No more songs, please give links! :heart:");
+                msg.reply("no more songs, please give links! :heart:");
             } else {
                 playSong(guild, vc, msg);
             }
         })
         .on('start', () => {
-            msg.reply("Now playing ->" + guild.songs[0].title);
+            msg.reply("now playing -> " + guild.songs[0].title);
         })
         .on('error', error => {
             console.log(error);
