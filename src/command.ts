@@ -6,6 +6,7 @@ import git from "./commands/git";
 import quit from "./commands/quit";
 import play from "./commands/play";
 import { GuildObject } from "./main";
+import stop from "./commands/stop";
 
 export class Command {
 
@@ -24,6 +25,7 @@ export const commands = [
     new Command("ping", [], ping),
     new Command("join", [], join),
     new Command("play", [], play),
+    new Command("stop", [], stop),
     new Command("disconnect", ["dc"], disconnect),
     new Command("git", ["dev", "developer"], git),
     new Command("quit", ["q", "destroy", "terminate"], quit)
