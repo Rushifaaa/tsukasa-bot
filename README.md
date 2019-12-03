@@ -27,7 +27,7 @@
 
 
 ## About the Project
-Hey.. I just wanted to make a Discord Bot so I just learnd typescript in my teaching about a month ago, so I thought why not user typescript.  
+Hey.. I just wanted to make a Discord Bot so I just learned typescript in my teaching about a month ago, so I thought why not use typescript.  
 It should be a simple Discord Bot that is Open Source under the [GPL-3.0](./LICENSE) so you can use it, but please read the [LICENSE](./LICENSE) first.
 
 
@@ -57,7 +57,8 @@ Because I like the name :P
 ## Getting Started
 
 **NEED TO KNOW**  
-*You need [yarn](https://yarnpkg.com/en/)!*  
+*You need [yarn](https://yarnpkg.com/en/)!*
+*Please install **ffmpeg** too please!*
 
 So if you decided to host your own Bot you need a Bot Token **-I assume you know how to get it, if not google it or duck it :P**
 

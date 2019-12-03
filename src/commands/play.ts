@@ -62,6 +62,7 @@ function playSong(guild: GuildObject, vc: VoiceChannel, msg: Message) {
             guild.dispatcher = null;
             if (guild.songs.length === 0) {
                 msg.reply("no more songs, please give links! :heart:");
+                return;
             } else {
                 playSong(guild, vc, msg);
             }
