@@ -5,15 +5,16 @@ import disconnect from "./commands/disconnect";
 import git from "./commands/git";
 import quit from "./commands/quit";
 import play from "./commands/play";
+import { GuildObject } from "./main";
 
 export class Command {
 
-    constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message) => number | Promise<any> | void) {
+    constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message, guildObject: Map<string, GuildObject>) => number | Promise<any> | void) {
         //EMPTY....
     }
 
-    invoke(args: string[], msg: Message): number {
-        const ret = this.func(args, msg);
+    invoke(args: string[], msg: Message, guildObject: Map<string, GuildObject>): number {
+        const ret = this.func(args, msg, guildObject);
         if (typeof (ret) !== "number") return 0;
         return ret;
     }
