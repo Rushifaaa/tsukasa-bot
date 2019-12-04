@@ -46,12 +46,13 @@ Because I like the name :P
   - [x] Play with Queue - (Youtube URL)
   - [x] Pause
   - [x] Resume
-  - [x] Terminate (Developer Only)
+  - [x] Terminate (Developer/Hoster Only)
   
 * Moderation Stuff
-  - [-] Auto Role (User joined Server)
+  - [x] Auto Role (User joined Server)
 
   * Commands
+    - [x] Admin (grant permission to a role to manage the bot)
     - [ ] Add/Remove Role
     - [ ] Kick
     - [ ] Ban
