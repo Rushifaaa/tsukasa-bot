@@ -45,6 +45,9 @@ Because I like the name :P
   - [x] Disconnect
   - [x] Play with Queue - (Youtube URL)
   - [x] Pause
+  - [x] Skip
+  - [x] Stop
+  - [x] Volume
   - [x] Resume
   - [x] Terminate (Developer/Hoster Only)
   
