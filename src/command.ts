@@ -32,7 +32,7 @@ export const commands = [
     new Command("join", ["j"], join),
     new Command("stop", ["s"], stop),
     new Command("admin", [], admin),
-    new Command("pause", [""], pause),
+    new Command("pause", [], pause),
     new Command("play", ["p"], play),
     new Command("resume", ["re"], resume),
     new Command("autorole", ["ar"], autorole),
