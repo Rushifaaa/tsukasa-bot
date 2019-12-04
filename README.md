@@ -44,8 +44,8 @@ Because I like the name :P
   - [x] Join
   - [x] Disconnect
   - [x] Play with Queue - (Youtube URL)
-  - [-] Pause -> In Progress
-  - [-] Resume -> In Progress
+  - [x] Pause
+  - [x] Resume
   - [x] Terminate (Developer Only)
   
 * Moderation Stuff
