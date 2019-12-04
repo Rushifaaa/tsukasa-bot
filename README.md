@@ -46,15 +46,18 @@ Because I like the name :P
   - [x] Play with Queue - (Youtube URL)
   - [-] Pause -> In Progress
   - [-] Resume -> In Progress
-  - [ ] Clear Chat
-  - [ ] Add/Remove Role
-  - [ ] Kick
-  - [ ] Ban
-  - [ ] Mute
   - [x] Terminate (Developer Only)
   
-* Background Tasks
-  - [x] Auto Role (User joined Server) *- can be configured in the config.json -* 
+* Moderation Stuff
+  - [-] Auto Role (User joined Server)
+
+  * Commands
+    - [ ] Add/Remove Role
+    - [ ] Kick
+    - [ ] Ban
+    - [ ] Mute
+    - [ ] Clear Chat
+
   
 ## Getting Started
 
