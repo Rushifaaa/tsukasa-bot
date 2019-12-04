@@ -12,6 +12,8 @@ import resume from "./commands/music/resume";
 import autorole from './commands/moderation/autorole';
 import admin from "./commands/moderation/admin";
 import clearChat from './commands/moderation/clearChat';
+import volume from "./commands/music/volume";
+import skip from "./commands/music/skip";
 
 export class Command {
 
@@ -34,6 +36,8 @@ export const commands = [
     new Command("admin", [], admin),
     new Command("pause", [], pause),
     new Command("play", ["p"], play),
+    new Command("volume", [], volume),
+    new Command("skip", [], skip),
     new Command("resume", ["re"], resume),
     new Command("autorole", ["ar"], autorole),
     new Command("clearchat", ["cc"], clearChat),
