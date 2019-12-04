@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
-import { GuildObject } from '../main';
+import { GuildData } from '../../main';
 
-const stop = (args: string[], msg: Message, guildObjects: Map<string, GuildObject>) => {
+const stop = (args: string[], msg: Message, guildObjects: Map<string, GuildData>) => {
     const guild = guildObjects.get(msg.guild.id);
 
     if (!guild) {
