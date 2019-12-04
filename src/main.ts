@@ -1,15 +1,15 @@
 import { Client, StreamDispatcher } from 'discord.js';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { commands } from './command';
-import { Song } from './commands/play';
+import { Song } from './commands/music/play';
 
 const tsukasa = new Client();
 export const configFilePath = __dirname + "/../config.json";
 export let tsukasaConfig: TsukasaConfig | null = null;
 const prefix = "†";
-export const guildObjects = new Map<string, GuildObject>();
+export const guildObjects = new Map<string, GuildData>();
 
-export interface GuildObject {
+export interface GuildData {
     dispatcher: StreamDispatcher | null;
     songs: Song[];
 }
