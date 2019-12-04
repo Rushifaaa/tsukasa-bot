@@ -57,7 +57,7 @@ Because I like the name :P
     - [ ] Kick
     - [ ] Ban
     - [ ] Mute
-    - [ ] Clear Chat
+    - [x] Clear Chat
 
   
 ## Getting Started
