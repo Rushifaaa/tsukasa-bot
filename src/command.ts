@@ -15,7 +15,7 @@ import clearChat from './commands/moderation/clearChat';
 
 export class Command {
 
-    constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message, guildData: Map<string, GuildData>) => number | Promise<any> | void) {
+    constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message, guildData: Map<string, GuildData>) => number | Promise<any> | void | boolean) {
         //EMPTY....
     }
 
