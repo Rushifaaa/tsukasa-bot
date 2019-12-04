@@ -2,7 +2,7 @@ import { Client, StreamDispatcher } from 'discord.js';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { commands } from './command';
 import { Song } from './commands/music/play';
-
+//webhook test
 const tsukasa = new Client();
 export const configFilePath = __dirname + "/../config.json";
 export let tsukasaConfig: TsukasaConfig | null = null;
