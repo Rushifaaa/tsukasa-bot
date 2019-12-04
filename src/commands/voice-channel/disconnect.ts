@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { newSongQueue } from './play';
+import { newSongQueue } from '../music/play';
 
 const disconnect = (args: string[], msg: Message) => {
     if (msg.member.voiceChannel || msg.guild.voiceConnection) {

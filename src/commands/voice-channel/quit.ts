@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { TsukasaConfig, configFilePath } from '../main';
+import { TsukasaConfig, configFilePath } from '../../main';
 import { readFileSync } from 'fs';
 
 const quit = (args: string[], msg: Message) => {

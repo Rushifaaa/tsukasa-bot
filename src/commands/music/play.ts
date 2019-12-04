@@ -1,6 +1,6 @@
 import { Message, VoiceChannel, StreamDispatcher } from 'discord.js';
 import ytdl = require('ytdl-core');
-import { GuildObject } from '../main';
+import { GuildData } from '../../main';
 
 export interface SongQueue {
     songs: Song[];
@@ -15,7 +15,7 @@ export let newSongQueue: SongQueue = {
     songs: []
 }
 
-const play = async (args: string[], msg: Message, guildObjects: Map<string, GuildObject>) => {
+const play = async (args: string[], msg: Message, guildObjects: Map<string, GuildData>) => {
     const guild = guildObjects.get(msg.guild.id);
     if (!guild) {
         msg.reply("Guild not found!");
@@ -50,7 +50,7 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
 
 }
 
-function playSong(guild: GuildObject, vc: VoiceChannel, msg: Message) {
+function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
     if (guild.dispatcher) {
         return;
     }
