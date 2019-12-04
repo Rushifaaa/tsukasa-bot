@@ -43,13 +43,15 @@ Because I like the name :P
   - [x] Git (Shows this repository)
   - [x] Join
   - [x] Disconnect
-  - [-] Play (Youtube URL) -> In Progress
+  - [x] Play with Queue - (Youtube URL)
+  - [-] Pause -> In Progress
+  - [-] Resume -> In Progress
   - [ ] Clear Chat
   - [ ] Add/Remove Role
   - [ ] Kick
   - [ ] Ban
   - [ ] Mute
-  - [ ] Terminate (Developer Only)
+  - [x] Terminate (Developer Only)
   
 * Background Tasks
   - [x] Auto Role (User joined Server) *- can be configured in the config.json -* 
