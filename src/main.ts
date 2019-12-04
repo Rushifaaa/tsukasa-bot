@@ -1,5 +1,5 @@
 import { Client, StreamDispatcher } from 'discord.js';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { commands } from './command';
 import { Song } from './commands/music/play';
 
@@ -17,11 +17,16 @@ export interface GuildData {
 export interface TsukasaConfig {
     token: string;
     owner_id: string;
+    data_folder: string;
+}
+
+export interface ServerConfig {
+    server_id: string;
+    admin_id?: string;
     autorole: {
         active: boolean;
-        role_id: string;
-    },
-    data_folder: string;
+        role_id?: string;
+    };
 }
 
 tsukasa.on('ready', () => {
@@ -32,6 +37,32 @@ tsukasa.on('ready', () => {
             dispatcher: null,
             songs: []
         });
+
+        let config: ServerConfig = {
+            server_id: guild.id,
+            autorole: {
+                active: false
+            }
+        }
+        //TODO: Music Default Channel where bot writes his messages for next song
+
+        if (tsukasaConfig) {
+            if (tsukasaConfig.data_folder) {
+                if (!existsSync(tsukasaConfig.data_folder + "/" + guild.id)) {
+                    mkdirSync(tsukasaConfig.data_folder + "/" + guild.id)
+                    writeFileSync(tsukasaConfig.data_folder + "/" + guild.id + "/config.json", JSON.stringify(config));
+                    console.log("Server Config for" + guild.name + "/" + guild.id + " was successfully created!");
+                    return;
+                }
+                if (!existsSync(tsukasaConfig.data_folder + "/" + guild.id + "/config.json")) {
+                    writeFileSync(tsukasaConfig.data_folder + "/" + guild.id + "/config.json", JSON.stringify(config));
+                    console.log("Server Config for" + guild.name + "/" + guild.id + " was successfully created!");
+                    return;
+                }
+            } else {
+                console.log("No path found -> " + tsukasaConfig.data_folder);
+            }
+        }
     })
 
     tsukasa.user.setPresence({
@@ -54,12 +85,13 @@ tsukasa.on("guildCreate", guild => {
 
 tsukasa.on('guildMemberAdd', member => {
     if (!tsukasaConfig) return;
+    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + member.guild.id + "/config.json").toString());
+    console.log(serverConfig);
 
-    if (!tsukasaConfig.autorole.active) return;
+    if (!serverConfig.autorole.active) return;
+    if (!serverConfig.autorole.role_id) return;
 
-    //TODO: Wirte command to activate autorole or deactivate (with serverConfig)
-
-    member.addRole(tsukasaConfig.autorole.role_id).then(() => {
+    member.addRole(serverConfig.autorole.role_id).then(() => {
         console.log("Added Role to user" + member.displayName);
     }).catch(err => {
         console.log("An error occurred! -> " + err)
@@ -71,7 +103,7 @@ tsukasa.on('message', msg => {
 
     let args = msg.content.slice(prefix.length).trim().split(/ +/s);
     let commandName = args.shift();
-    if(!commandName) return;
+    if (!commandName) return;
     commandName = commandName.toLowerCase();
 
     let commandFound = false;
@@ -95,10 +127,6 @@ async function startServer() {
     let newConfig: TsukasaConfig = {
         token: "TOKEN",
         owner_id: "YOUR ID !!!IMPORTANT!!!",
-        autorole: {
-            active: false,
-            role_id: "Enter default role id"
-        },
         data_folder: "Please enter a desired path for the data folder"
     };
 
