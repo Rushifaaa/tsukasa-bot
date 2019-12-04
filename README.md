@@ -1,6 +1,6 @@
 [![GitHub](https://img.shields.io/github/license/Rushifaaa/tsukasa-bot?style=flat-square)](./LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/Rushifaaa/tsukasa-bot?style=flat-square)](https://github.com/Rushifaaa/tsukasa-bot/graphs/contributors)
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/Rushifaaa/tsukasa-bot?include_prereleases&sort=semver&style=flat-square)
+[![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/Rushifaaa/tsukasa-bot?include_prereleases&sort=semver&style=flat-square)](https://github.com/Rushifaaa/tsukasa-bot/releases)
 [![GitHub issues](https://img.shields.io/github/issues/Rushifaaa/tsukasa-bot?style=flat-square)](https://github.com/Rushifaaa/tsukasa-bot/issues)
 [![Discord](https://img.shields.io/discord/508727953350328320?style=flat-square)](https://discord.gg/kFqWZtv)
 
