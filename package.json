@@ -1,8 +1,8 @@
 {
   "name": "tsukasa",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "main": "main.ts",
-  "license": "GPLv3",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "start-tsnode": "ts-node src/main.ts",
     "start-nodemon": "nodemon src/main.ts"

@@ -55,6 +55,16 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
         return;
     }
 
+    msg.guild.client.user.setPresence({
+        afk: false,
+        status: "dnd",
+        game: {
+            name: guild.songs[0].title,
+            type: "STREAMING",
+            url: guild.songs[0].url
+        }
+    })
+
     guild.dispatcher = vc.connection.playStream(ytdl(guild.songs[0].url, { filter: 'audioonly' }))
         .on('end', () => {
 
@@ -62,6 +72,17 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
             guild.dispatcher = null;
             if (guild.songs.length === 0) {
                 msg.reply("no more songs, please give links! :heart:");
+
+                msg.guild.client.user.setPresence({
+                    status: "dnd",
+                    afk: true,
+                    game: {
+                        name: "how lucifer creates me",
+                        url: "https://github.com/Rushifaaa/tsukasa-bot",
+                        type: "WATCHING"
+                    }
+                });
+
                 return;
             } else {
                 playSong(guild, vc, msg);
@@ -73,7 +94,7 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
         .on('error', error => {
             console.log(error);
         });
-    guild.dispatcher.setVolumeLogarithmic(100 / 100);
+    guild.dispatcher.setVolumeLogarithmic(50.0 / 100.0);
 }
 
 export default play;

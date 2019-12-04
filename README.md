@@ -44,14 +44,15 @@ Because I like the name :P
   - [x] Join
   - [x] Disconnect
   - [x] Play with Queue - (Youtube URL)
-  - [-] Pause -> In Progress
-  - [-] Resume -> In Progress
-  - [x] Terminate (Developer Only)
+  - [x] Pause
+  - [x] Resume
+  - [x] Terminate (Developer/Hoster Only)
   
 * Moderation Stuff
-  - [-] Auto Role (User joined Server)
+  - [x] Auto Role (User joined Server)
 
   * Commands
+    - [x] Admin (grant permission to a role to manage the bot)
     - [ ] Add/Remove Role
     - [ ] Kick
     - [ ] Ban

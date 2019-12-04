@@ -9,6 +9,8 @@ import { GuildData } from "./main";
 import stop from "./commands/music/stop";
 import pause from "./commands/music/pause";
 import resume from "./commands/music/resume";
+import autorole from './commands/moderation/autorole';
+import admin from "./commands/moderation/admin";
 
 export class Command {
 
@@ -24,12 +26,15 @@ export class Command {
 }
 
 export const commands = [
-    new Command("ping", [], ping),
-    new Command("join", [], join),
-    new Command("play", [], play),
-    new Command("pause", [], pause),
-    new Command("resume", [], resume),
-    new Command("stop", [], stop),
+    //TODO: Help command
+    new Command("ping", ["test"], ping),
+    new Command("join", ["j"], join),
+    new Command("stop", ["s"], stop),
+    new Command("admin", [], admin),
+    new Command("pause", [""], pause),
+    new Command("play", ["p"], play),
+    new Command("resume", ["re"], resume),
+    new Command("autorole", ["ar"], autorole),
     new Command("disconnect", ["dc"], disconnect),
     new Command("git", ["dev", "developer"], git),
     new Command("quit", ["q", "destroy", "terminate"], quit)
