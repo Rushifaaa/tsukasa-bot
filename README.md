@@ -65,6 +65,10 @@ Because I like the name :P
   
 ## Getting Started
 
+
+**Before you start**
+[**Want to try the bot?**](https://discordapp.com/oauth2/authorize?&client_id=564526337377959956&scope=bot&permissions=8)
+
 **NEED TO KNOW**  
 *You need [yarn](https://yarnpkg.com/en/)!*
 *Please install **ffmpeg** too please!*
