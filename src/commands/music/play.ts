@@ -1,6 +1,7 @@
 import { Message, VoiceChannel, StreamDispatcher } from 'discord.js';
 import ytdl = require('ytdl-core');
-import { GuildData } from '../../main';
+import { GuildData, tsukasaConfig } from '../../main';
+import * as YouTube from 'simple-youtube-api';
 
 export interface SongQueue {
     songs: Song[];
@@ -17,25 +18,22 @@ export let newSongQueue: SongQueue = {
 
 const play = async (args: string[], msg: Message, guildObjects: Map<string, GuildData>) => {
 
+    if (!tsukasaConfig) {
+        return;
+    }
+
+    const youtube = new YouTube(tsukasaConfig.google_api_key);
+
     if (msg.channel.type === "dm") {
         msg.channel.send("Is just available on a Server!");
         return;
     }
-    
+
     const guild = guildObjects.get(msg.guild.id);
     if (!guild) {
         msg.reply("Guild not found!");
         return;
     }
-
-    var songInfo = await ytdl.getInfo(args[0]);
-
-    var newSong: Song = {
-        title: songInfo.title,
-        url: songInfo.video_url
-    }
-
-    guild.songs.push(newSong);
 
     const voiceChannel = msg.member.voiceChannel;
 
@@ -51,6 +49,40 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
         msg.reply("I dont have any permissions to speak in this channel!");
         return;
     }
+
+    if (args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
+        const playlist = await youtube.getPlaylist(args[0]);
+        const videos = await playlist.getVideos();
+
+        msg.reply(`Fetching ${videos.length}... Could take some while :P :rofl:`);
+
+        for (const video of videos) {
+
+            var songInfo = await ytdl.getInfo(video.url);
+
+            var newSong: Song = {
+                title: songInfo.title,
+                url: songInfo.video_url
+            }
+
+            guild.songs.push(newSong);
+
+
+            playSong(guild, voiceChannel, msg);
+        }
+
+        return;
+    }
+
+    var songInfo = await ytdl.getInfo(args[0]);
+
+    var newSong: Song = {
+        title: songInfo.title,
+        url: songInfo.video_url
+    }
+
+    guild.songs.push(newSong);
+
 
     playSong(guild, voiceChannel, msg);
 
@@ -95,7 +127,9 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
             }
         })
         .on('start', () => {
-            msg.reply("now playing -> " + guild.songs[0].title);
+            if (guild.songs[0].title) {
+                msg.reply("now playing -> " + guild.songs[0].title);
+            }
         })
         .on('error', error => {
             console.log(error);
