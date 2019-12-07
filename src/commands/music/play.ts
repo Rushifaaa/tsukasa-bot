@@ -16,6 +16,7 @@ export let newSongQueue: SongQueue = {
 }
 
 const play = async (args: string[], msg: Message, guildObjects: Map<string, GuildData>) => {
+
     if (msg.channel.type === "dm") {
         msg.channel.send("Is just available on a Server!");
         return;

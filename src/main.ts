@@ -18,6 +18,7 @@ export interface TsukasaConfig {
     token: string;
     owner_id: string;
     data_folder: string;
+    google_api_key: string;
 }
 
 export interface ServerConfig {
@@ -27,7 +28,7 @@ export interface ServerConfig {
         active: boolean;
         role_id?: string;
     };
-    
+
 }
 
 tsukasa.on('ready', () => {
@@ -130,7 +131,8 @@ async function startServer() {
     let newConfig: TsukasaConfig = {
         token: "TOKEN",
         owner_id: "YOUR ID !!!IMPORTANT!!!",
-        data_folder: "Please enter a desired path for the data folder"
+        data_folder: "Please enter a desired path for the data folder",
+        google_api_key: "Please enter a google API key for playlist support"
     };
 
     if (!existsSync(configFilePath)) {
