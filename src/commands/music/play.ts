@@ -58,33 +58,40 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
 
         for (const video of videos) {
 
-            var songInfo = await ytdl.getInfo(video.url);
+            try {
+                var songInfo = await ytdl.getInfo(video.url);
 
-            var newSong: Song = {
-                title: songInfo.title,
-                url: songInfo.video_url
+                var newSong: Song = {
+                    title: songInfo.title,
+                    url: songInfo.video_url
+                }
+
+                guild.songs.push(newSong);
+
+                playSong(guild, voiceChannel, msg);
+            } catch (error) {
+                console.log(`An error occurred -> ${error}`);
             }
 
-            guild.songs.push(newSong);
-
-
-            playSong(guild, voiceChannel, msg);
         }
 
         return;
     }
 
-    var songInfo = await ytdl.getInfo(args[0]);
+    try {
+        var songInfo = await ytdl.getInfo(args[0]);
 
-    var newSong: Song = {
-        title: songInfo.title,
-        url: songInfo.video_url
+        var newSong: Song = {
+            title: songInfo.title,
+            url: songInfo.video_url
+        }
+
+        guild.songs.push(newSong);
+
+        playSong(guild, voiceChannel, msg);
+    } catch (error) {
+        console.log(`An error occurred -> ${error}`);
     }
-
-    guild.songs.push(newSong);
-
-
-    playSong(guild, voiceChannel, msg);
 
 }
 
@@ -103,38 +110,43 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
         }
     })
 
-    guild.dispatcher = vc.connection.playStream(ytdl(guild.songs[0].url, { filter: 'audioonly' }))
-        .on('end', () => {
+    if (vc) {
+        guild.dispatcher = vc.connection.playStream(ytdl(guild.songs[0].url, { filter: 'audioonly', quality: 'highestaudio' }))
+            .on('end', () => {
 
-            guild.songs.shift();
-            guild.dispatcher = null;
-            if (guild.songs.length === 0) {
-                msg.reply("no more songs, please give links! :heart:");
+                guild.songs.shift();
+                guild.dispatcher = null;
+                if (guild.songs.length === 0) {
+                    msg.reply("no more songs, please give links! :heart:");
 
-                msg.guild.client.user.setPresence({
-                    status: "dnd",
-                    afk: true,
-                    game: {
-                        name: "how lucifer creates me",
-                        url: "https://github.com/Rushifaaa/tsukasa-bot",
-                        type: "WATCHING"
-                    }
-                });
+                    msg.guild.client.user.setPresence({
+                        status: "dnd",
+                        afk: true,
+                        game: {
+                            name: "how lucifer creates me",
+                            url: "https://github.com/Rushifaaa/tsukasa-bot",
+                            type: "WATCHING"
+                        }
+                    });
 
-                return;
-            } else {
-                playSong(guild, vc, msg);
-            }
-        })
-        .on('start', () => {
-            if (guild.songs[0].title) {
-                msg.reply("now playing -> " + guild.songs[0].title);
-            }
-        })
-        .on('error', error => {
-            console.log(error);
-        });
-    guild.dispatcher.setVolumeLogarithmic(50.0 / 100.0);
+                    return;
+                } else {
+                    playSong(guild, vc, msg);
+                }
+            })
+            .on('start', () => {
+                if (guild.songs[0].title !== undefined) {
+                    msg.reply("now playing -> " + guild.songs[0].title);
+                }
+            })
+            .on('error', error => {
+                console.log(error);
+            });
+        guild.dispatcher.setVolumeLogarithmic(50.0 / 100.0);
+    } else {
+        msg.reply("You are not in a channel");
+        return;
+    }
 }
 
 export default play;
