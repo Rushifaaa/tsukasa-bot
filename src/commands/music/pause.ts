@@ -2,6 +2,12 @@ import { Message } from 'discord.js';
 import { GuildData } from '../../main';
 
 const pause = (args: string[], msg: Message, guildData: Map<string, GuildData>) => {
+
+    if (msg.channel.type === "dm") {
+        msg.channel.send("Is just available on a Server!");
+        return;
+    }
+
     const guild = guildData.get(msg.guild.id);
 
     if (!guild) {

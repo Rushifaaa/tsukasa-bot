@@ -2,6 +2,12 @@ import { Message } from 'discord.js';
 import { newSongQueue } from '../music/play';
 
 const disconnect = (args: string[], msg: Message) => {
+
+    if (msg.channel.type === "dm") {
+        msg.channel.send("Is just available on a Server!");
+        return;
+    }
+    
     if (msg.member.voiceChannel || msg.guild.voiceConnection) {
         if (msg.member.voiceChannelID === msg.guild.me.voiceChannelID) {
             msg.reply("see you, my darling!! :p :heart:");

@@ -4,6 +4,11 @@ import { readFileSync } from 'fs';
 import permissionCheck from '../../utility/permissionCheck';
 
 const clearChat = async (args: string[], msg: Message) => {
+    if (msg.channel.type === "dm") {
+        msg.channel.send("You can't use this command in a dm!");
+        return;
+    }
+    
     if (!permissionCheck(msg)) {
         return;
     }

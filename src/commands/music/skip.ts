@@ -4,6 +4,11 @@ import { GuildData } from '../../main';
 
 const skip = (args: string[], msg: Message, guildData: Map<string, GuildData>) => {
 
+    if (msg.channel.type === "dm") {
+        msg.channel.send("Is just available on a Server!");
+        return;
+    }
+    
     if (!permissionCheck(msg)) {
         return;
     }

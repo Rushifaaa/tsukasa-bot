@@ -4,6 +4,12 @@ import { GuildData } from '../../main';
 
 const volume = (args: string[], msg: Message, guildData: Map<string, GuildData>) => {
 
+
+    if (msg.channel.type === "dm") {
+        msg.channel.send("Is just available on a Server!");
+        return;
+    }
+    
     if (!permissionCheck(msg)) {
         return;
     }
@@ -28,6 +34,10 @@ const volume = (args: string[], msg: Message, guildData: Map<string, GuildData>)
     if (!volumeValue) {
         msg.reply("please enter a number from 0 to 100.");
         return;
+    }
+
+    if (!(volumeValue <= 100)) {
+        msg.reply("you cannot set a value aboth");
     }
 
     guild.dispatcher.setVolumeLogarithmic(volumeValue / 100.0);

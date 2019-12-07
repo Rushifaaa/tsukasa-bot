@@ -3,6 +3,12 @@ import { TsukasaConfig, configFilePath } from '../../main';
 import { readFileSync } from 'fs';
 
 const quit = (args: string[], msg: Message) => {
+
+    if (msg.channel.type === "dm") {
+        msg.channel.send("Is just available on a Server!");
+        return;
+    }
+    
     try {
         const config: TsukasaConfig = JSON.parse(readFileSync(configFilePath).toString());
 

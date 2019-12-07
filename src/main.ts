@@ -27,6 +27,7 @@ export interface ServerConfig {
         active: boolean;
         role_id?: string;
     };
+    
 }
 
 tsukasa.on('ready', () => {
@@ -96,6 +97,8 @@ tsukasa.on('guildMemberAdd', member => {
     }).catch(err => {
         console.log("An error occurred! -> " + err)
     });
+
+    member.user.send("Test");
 });
 
 tsukasa.on('message', msg => {

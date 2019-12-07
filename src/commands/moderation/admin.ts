@@ -3,6 +3,11 @@ import { tsukasaConfig, ServerConfig } from '../../main';
 import { readFileSync, writeFileSync } from 'fs';
 
 const admin = (args: string[], msg: Message) => {
+    if (msg.channel.type === "dm") {
+        msg.channel.send("You can't use this command in a dm!");
+        return;
+    }
+
     if (!tsukasaConfig) {
         msg.reply("the hoster of this bot, does not have a config!");
         return;
