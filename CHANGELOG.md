@@ -5,18 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-- changelog
+[Unreleased]: https://github.com/Rushifaaa/tsukasa-bot/compare/v0.13.0...develop
+
 
 ## [0.13.0] - 2020-1-6
 [0.13.0]: https://github.com/Rushifaaa/tsukasa-bot/compare/v0.12.0...v0.13.0
 ### Added
 - youtube playlist support
 - default volume for music
-
-### Edit
-- readme
-- gitignore
 
 ### Fixed
 - bug in playlist support
@@ -47,9 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - play command
 - resume command
 
-### Edit
-- readme
-
 ## [0.8.0] - 2019-12-3
 [0.8.0]: https://github.com/Rushifaaa/tsukasa-bot/compare/v0.7.0...v0.8.0
 ### Added
@@ -58,12 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.7.0] - 2019-12-3
 [0.7.0]: https://github.com/Rushifaaa/tsukasa-bot/releases/tag/v0.7.0
 ### Added
-- README.md
 - ping command
 - join command
 - leave command
 - git command
 - quit command
-
-### Changed
-- gitignore
