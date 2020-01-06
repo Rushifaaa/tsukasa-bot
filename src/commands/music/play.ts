@@ -30,6 +30,7 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
     }
 
     const guild = guildObjects.get(msg.guild.id);
+
     if (!guild) {
         msg.reply("Guild not found!");
         return;
@@ -51,31 +52,42 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
     }
 
     if (args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-        const playlist = await youtube.getPlaylist(args[0]);
-        const videos = await playlist.getVideos();
 
-        msg.reply(`Fetching ${videos.length}... Could take some while :P :rofl:`);
+        try {
+            const playlist = await youtube.getPlaylist(args[0]);
+            const videos = await playlist.getVideos();
 
-        for (const video of videos) {
+            msg.reply(`Fetching ${videos.length}... Could take some while :P :rofl:`);
 
-            try {
-                var songInfo = await ytdl.getInfo(video.url);
+            for (const video of videos) {
+                if (guild.isStoped) {
+                    guild.isStoped = false;
+                    break;
+                } else {
+                    try {
+                        var songInfo = await ytdl.getInfo(video.url);
 
-                var newSong: Song = {
-                    title: songInfo.title,
-                    url: songInfo.video_url
+                        var newSong: Song = {
+                            title: songInfo.title,
+                            url: songInfo.video_url
+                        }
+
+                        guild.songs.push(newSong);
+
+                        playSong(guild, voiceChannel, msg);
+                    } catch (error) {
+                        console.log(`An error occurred -> ${error}`);
+                    }
                 }
-
-                guild.songs.push(newSong);
-
-                playSong(guild, voiceChannel, msg);
-            } catch (error) {
-                console.log(`An error occurred -> ${error}`);
             }
 
+        } catch (error) {
+            console.log(error);
         }
 
         return;
+    } else {
+        console.log("Link does not match to an Playlist on YouTube");
     }
 
     try {
@@ -118,17 +130,6 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
                 guild.dispatcher = null;
                 if (guild.songs.length === 0) {
                     msg.reply("no more songs, please give links! :heart:");
-
-                    msg.guild.client.user.setPresence({
-                        status: "dnd",
-                        afk: true,
-                        game: {
-                            name: "how lucifer creates me",
-                            url: "https://github.com/Rushifaaa/tsukasa-bot",
-                            type: "WATCHING"
-                        }
-                    });
-
                     return;
                 } else {
                     playSong(guild, vc, msg);

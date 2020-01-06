@@ -8,7 +8,7 @@ const stop = (args: string[], msg: Message, guildObjects: Map<string, GuildData>
         msg.channel.send("Is just available on a Server!");
         return;
     }
-    
+
     if (!guild) {
         msg.reply("Server not found!");
         return;
@@ -17,6 +17,7 @@ const stop = (args: string[], msg: Message, guildObjects: Map<string, GuildData>
     if (!guild.dispatcher) return;
     guild.dispatcher.end();
     guild.dispatcher = null;
+    guild.isStoped = true;
     guild.songs = [];
 
 }

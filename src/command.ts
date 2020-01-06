@@ -32,7 +32,7 @@ export const commands = [
     //TODO: Help command
     new Command("ping", ["test"], ping),
     new Command("join", ["j"], join),
-    new Command("stop", ["s"], stop),
+    new Command("stop", ["st"], stop),
     new Command("admin", [], admin),
     new Command("pause", [], pause),
     new Command("play", ["p"], play),

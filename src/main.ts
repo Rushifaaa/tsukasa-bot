@@ -6,12 +6,13 @@ import { Song } from './commands/music/play';
 const tsukasa = new Client();
 export const configFilePath = __dirname + "/../config.json";
 export let tsukasaConfig: TsukasaConfig | null = null;
-const prefix = "†";
+const prefix = "//";
 export const guildObjects = new Map<string, GuildData>();
 
 export interface GuildData {
     dispatcher: StreamDispatcher | null;
     songs: Song[];
+    isStoped: boolean;
 }
 
 export interface TsukasaConfig {
@@ -23,7 +24,7 @@ export interface TsukasaConfig {
 
 export interface ServerConfig {
     server_id: string;
-    admin_id?: string;
+    admin_id?: string | null;
     autorole: {
         active: boolean;
         role_id?: string;
@@ -37,11 +38,13 @@ tsukasa.on('ready', () => {
     tsukasa.guilds.forEach(guild => {
         guildObjects.set(guild.id, {
             dispatcher: null,
+            isStoped: false,
             songs: []
         });
 
         let config: ServerConfig = {
             server_id: guild.id,
+            admin_id: null,
             autorole: {
                 active: false
             }
@@ -67,6 +70,7 @@ tsukasa.on('ready', () => {
 tsukasa.on("guildCreate", guild => {
     guildObjects.set(guild.id, {
         dispatcher: null,
+        isStoped: false,
         songs: []
     });
 })
@@ -116,7 +120,7 @@ tsukasa.on('message', msg => {
 async function startServer() {
     let newConfig: TsukasaConfig = {
         token: "TOKEN",
-        owner_id: "YOUR ID !!!IMPORTANT!!!",
+        owner_id: "Your Discord-ID",
         data_folder: "Please enter a desired path for the data folder",
         google_api_key: "Please enter a google API key for playlist support"
     };
