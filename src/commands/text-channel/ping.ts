@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 
 const ping = (args: string[], msg: Message) => {
-    msg.reply("pong <3");
+    msg.channel.send("pong :heart:");
+    msg.author.send("pong :heart: -> PM");
 }
 export default ping;

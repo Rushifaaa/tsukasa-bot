@@ -1,6 +1,12 @@
 import { Message, VoiceChannel, VoiceConnection } from 'discord.js';
 
 const join = async (args: string[], msg: Message) => {
+
+    if (msg.channel.type === "dm") {
+        msg.channel.send("Is just available on a Server!");
+        return;
+    }
+    
     const voiceChannel: VoiceChannel = msg.member.voiceChannel;
     if (voiceChannel) {
         //TODO: perms permissions.has("CONNECT")?

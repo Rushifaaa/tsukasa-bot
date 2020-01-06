@@ -1,14 +1,18 @@
 import { Message } from 'discord.js';
-import { ServerConfig, tsukasaConfig } from '../../main';
+import { ServerConfig, tsukasaConfig, prefix } from '../../main';
 import { readFileSync, writeFileSync } from 'fs';
 import permissionCheck from '../../utility/permissionCheck';
 
 const autorole = (args: string[], msg: Message) => {
-    
+    if (msg.channel.type === "dm") {
+        msg.channel.send("You can't use this command in a dm!");
+        return;
+    }
+
     if (!permissionCheck(msg)) {
         return;
     }
-    
+
     if (!tsukasaConfig) {
         msg.reply("the hoster of this bot, does not have a config!");
         return false;
@@ -17,7 +21,7 @@ const autorole = (args: string[], msg: Message) => {
     let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
 
     if (!serverConfig) {
-        msg.reply("please contact the Developer. Developer -> †git / Error -> ServerConfigs are not Created");
+        msg.reply("please contact the Developer. Developer -> " + prefix + "git / Error -> ServerConfigs are not Created");
         return false;
     }
 
@@ -40,7 +44,8 @@ const autorole = (args: string[], msg: Message) => {
             autorole: {
                 active: serverConfig.autorole.active,
                 role_id: args[1]
-            }
+            },
+            volume: serverConfig.volume
         }
 
         writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
@@ -75,7 +80,8 @@ const autorole = (args: string[], msg: Message) => {
             autorole: {
                 active: shouldActivate,
                 role_id: serverConfig.autorole.role_id
-            }
+            },
+            volume: serverConfig.volume
         }
 
         writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));

@@ -63,4 +63,7 @@ typings/
 # Bot config
 config.json
 
+#Data Folder for server
+data/
+
 .DS_Store
