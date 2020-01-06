@@ -1,7 +1,8 @@
 import { Message, VoiceChannel, StreamDispatcher } from 'discord.js';
 import ytdl = require('ytdl-core');
-import { GuildData, tsukasaConfig } from '../../main';
+import { GuildData, tsukasaConfig, ServerConfig } from '../../main';
 import * as YouTube from 'simple-youtube-api';
+import { readFileSync } from 'fs';
 
 export interface SongQueue {
     songs: Song[];
@@ -112,6 +113,11 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
         return;
     }
 
+    if (!tsukasaConfig) {
+        msg.reply("the hoster of this bot, does not have a config!");
+        return;
+    }
+
     msg.guild.client.user.setPresence({
         afk: false,
         status: "dnd",
@@ -143,7 +149,10 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
             .on('error', error => {
                 console.log(error);
             });
-        guild.dispatcher.setVolumeLogarithmic(50.0 / 100.0);
+
+        let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
+        guild.dispatcher.setVolumeLogarithmic(serverConfig.volume);
+
     } else {
         msg.reply("You are not in a channel");
         return;

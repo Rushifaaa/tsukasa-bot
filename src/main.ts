@@ -6,7 +6,7 @@ import { Song } from './commands/music/play';
 const tsukasa = new Client();
 export const configFilePath = __dirname + "/../config.json";
 export let tsukasaConfig: TsukasaConfig | null = null;
-const prefix = "//";
+export const prefix = "//";
 export const guildObjects = new Map<string, GuildData>();
 
 export interface GuildData {
@@ -29,6 +29,7 @@ export interface ServerConfig {
         active: boolean;
         role_id?: string;
     };
+    volume: number;
 
 }
 
@@ -47,7 +48,8 @@ tsukasa.on('ready', () => {
             admin_id: null,
             autorole: {
                 active: false
-            }
+            },
+            volume: 0.15
         }
 
         //TODO: Music Default Channel where bot writes his messages for next song

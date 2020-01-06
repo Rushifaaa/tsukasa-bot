@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { tsukasaConfig, ServerConfig } from '../../main';
+import { tsukasaConfig, ServerConfig, prefix } from '../../main';
 import { readFileSync, writeFileSync } from 'fs';
 
 const admin = (args: string[], msg: Message) => {
@@ -16,7 +16,7 @@ const admin = (args: string[], msg: Message) => {
     let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
 
     if (!serverConfig) {
-        msg.reply("please contact the Developer. Developer -> †git / Error -> ServerConfigs are not Created");
+        msg.reply("please contact the Developer. Developer -> " + prefix + "git / Error -> ServerConfigs are not Created");
         return;
     }
 
@@ -31,7 +31,8 @@ const admin = (args: string[], msg: Message) => {
         admin_id: args[0],
         autorole: {
             active: false,
-        }
+        },
+        volume: serverConfig.volume
     }
 
     writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
