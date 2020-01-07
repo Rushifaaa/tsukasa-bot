@@ -142,8 +142,9 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
                 }
             })
             .on('start', () => {
-                if (guild.songs[0].title !== undefined) {
+                if (guild.songs[0].title) {
                     msg.reply("now playing -> " + guild.songs[0].title);
+                    return;
                 }
             })
             .on('error', error => {

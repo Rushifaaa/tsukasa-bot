@@ -54,6 +54,8 @@ Because I like the name :P
   
 * Moderation Stuff
   - [x] Auto Role (User joined Server)
+  - [ ] Warning system <-- In Progress
+  - [ ] Swear word Filter <-- In Progress
 
   * Commands
     - [x] Admin (grant permission to a role to manage the bot)

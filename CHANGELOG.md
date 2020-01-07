@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 [Unreleased]: https://github.com/Rushifaaa/tsukasa-bot/compare/v0.13.0...develop
+### Added
+- 
 
 
 ## [0.13.0] - 2020-1-6

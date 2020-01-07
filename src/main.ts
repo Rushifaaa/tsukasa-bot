@@ -4,9 +4,10 @@ import { commands } from './command';
 import { Song } from './commands/music/play';
 
 const tsukasa = new Client();
+
 export const configFilePath = __dirname + "/../config.json";
+export const prefix = "†";
 export let tsukasaConfig: TsukasaConfig | null = null;
-export const prefix = "//";
 export const guildObjects = new Map<string, GuildData>();
 
 export interface GuildData {
@@ -30,6 +31,7 @@ export interface ServerConfig {
         role_id?: string;
     };
     volume: number;
+    prefix?: string | null;
 
 }
 
@@ -49,7 +51,8 @@ tsukasa.on('ready', () => {
             autorole: {
                 active: false
             },
-            volume: 0.15
+            volume: 0.15,
+            prefix: null
         }
 
         //TODO: Music Default Channel where bot writes his messages for next song
@@ -77,7 +80,7 @@ tsukasa.on("guildCreate", guild => {
     });
 })
 
-tsukasa.on('guildMemberAdd', member => {
+tsukasa.on('guildMemberAdd', async member => {
     if (!tsukasaConfig) return;
     let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + member.guild.id + "/config.json").toString());
     console.log(serverConfig);
@@ -85,19 +88,31 @@ tsukasa.on('guildMemberAdd', member => {
     if (!serverConfig.autorole.active) return;
     if (!serverConfig.autorole.role_id) return;
 
-    member.addRole(serverConfig.autorole.role_id).then(() => {
-        console.log("Added Role to user" + member.displayName);
-    }).catch(err => {
-        console.log("An error occurred! -> " + err)
-    });
+    try {
+        const guildMember = await member.addRole(serverConfig.autorole.role_id);
+        console.log("Autorole:", guildMember);
+    } catch (err) {
+        console.log("An error occurred! -> " + err);
+    }
 
     member.user.send("Test");
 });
 
 tsukasa.on('message', msg => {
-    if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+    if (!tsukasaConfig) return;
+    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.member.guild.id + "/config.json").toString());
 
     let args = msg.content.slice(prefix.length).trim().split(/ +/s);
+
+    if (!serverConfig.prefix) {
+        if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+        args = msg.content.slice(prefix.length).trim().split(/ +/s);
+    } else {
+        if (!msg.content.startsWith(serverConfig.prefix) || msg.author.bot) return;
+        args = msg.content.slice(serverConfig.prefix.length).trim().split(/ +/s);
+    }
+
+
     let commandName = args.shift();
     if (!commandName) return;
     commandName = commandName.toLowerCase();
@@ -109,6 +124,7 @@ tsukasa.on('message', msg => {
 
         commandFound = true
         const retNumber = cmd.invoke(args, msg, guildObjects);
+        console.log(`The user ${msg.author.id}/${msg.author.username} executed the command "${commandName}" with args: ${args[0] ? args[0] : "null"}.`);
         if (retNumber === 1) {
             tsukasa.destroy();
         }
