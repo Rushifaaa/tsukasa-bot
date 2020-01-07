@@ -1,4 +1,4 @@
-import { Client, StreamDispatcher, Guild } from 'discord.js';
+import { Client, StreamDispatcher, Guild, TextChannel, GroupDMChannel, DMChannel } from 'discord.js';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { commands } from './command';
 import { Song } from './commands/music/play';
@@ -14,6 +14,7 @@ export interface GuildData {
     dispatcher: StreamDispatcher | null;
     songs: Song[];
     isStoped: boolean;
+    lastChannel?: TextChannel | DMChannel | GroupDMChannel | null;
 }
 
 export interface TsukasaConfig {

@@ -13,10 +13,6 @@ export interface Song {
     url: string;
 }
 
-export let newSongQueue: SongQueue = {
-    songs: []
-}
-
 const play = async (args: string[], msg: Message, guildObjects: Map<string, GuildData>) => {
 
     if (!tsukasaConfig) {
@@ -35,6 +31,10 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
     if (!guild) {
         msg.reply("Guild not found!");
         return;
+    }
+
+    if (!guild.lastChannel) {
+        guild.lastChannel = msg.channel;
     }
 
     const voiceChannel = msg.member.voiceChannel;
@@ -101,6 +101,16 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
 
         guild.songs.push(newSong);
 
+        if (guild.songs.length > 1) {
+            if (guild.lastChannel) {
+                guild.lastChannel.send(`The song \`"${newSong.title}"\` was added to the Queue.`);
+                return;
+            }
+
+            msg.reply(`The song "${newSong.title}" was added to the Queue.`);
+        }
+
+
         playSong(guild, voiceChannel, msg);
     } catch (error) {
         console.log(`An error occurred -> ${error}`);
@@ -118,16 +128,6 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
         return;
     }
 
-    msg.guild.client.user.setPresence({
-        afk: false,
-        status: "dnd",
-        game: {
-            name: guild.songs[0].title,
-            type: "STREAMING",
-            url: guild.songs[0].url
-        }
-    })
-
     if (vc) {
         guild.dispatcher = vc.connection.playStream(ytdl(guild.songs[0].url, { filter: 'audioonly', quality: 'highestaudio' }))
             .on('end', () => {
@@ -143,6 +143,12 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
             })
             .on('start', () => {
                 if (guild.songs[0].title) {
+
+                    if (guild.lastChannel) {
+                        guild.lastChannel.send(`Now Playing \`"${guild.songs[0].title}"\`.`);
+                        return;
+                    }
+
                     msg.reply("now playing -> " + guild.songs[0].title);
                     return;
                 }

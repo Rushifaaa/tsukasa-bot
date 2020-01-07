@@ -1,17 +1,28 @@
 import { Message } from 'discord.js';
-import { newSongQueue } from '../music/play';
+import { GuildData } from '../../main';
 
-const disconnect = (args: string[], msg: Message) => {
+const disconnect = (args: string[], msg: Message, guildObjects: Map<string, GuildData>) => {
 
     if (msg.channel.type === "dm") {
         msg.channel.send("Is just available on a Server!");
         return;
     }
-    
+
+    const guild = guildObjects.get(msg.guild.id);
+
     if (msg.member.voiceChannel || msg.guild.voiceConnection) {
         if (msg.member.voiceChannelID === msg.guild.me.voiceChannelID) {
+
+            if (!guild) {
+                msg.reply("Guild not found!");
+                return;
+            }
+
             msg.reply("see you, my darling!! :p :heart:");
-            newSongQueue.songs = [];
+
+            guild.isStoped = true;
+            guild.songs = [];
+            guild.dispatcher = null;
             msg.member.voiceChannel.leave();
             return;
         }

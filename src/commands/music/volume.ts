@@ -53,7 +53,8 @@ const volume = (args: string[], msg: Message, guildData: Map<string, GuildData>)
         server_id: serverConfig.server_id,
         autorole: serverConfig.autorole,
         volume: volumeValue / 100,
-        admin_id: serverConfig.admin_id
+        admin_id: serverConfig.admin_id,
+        prefix: serverConfig.prefix
     }
 
     writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
