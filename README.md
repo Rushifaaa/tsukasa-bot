@@ -71,7 +71,7 @@ Because I like the name :P
 
 **NEED TO KNOW**  
 *You need [yarn](https://yarnpkg.com/en/)!*
-*Please install **ffmpeg** too please!*
+*Please install **ffmpeg** too!*
 
 So if you decided to host your own Bot you need a Bot Token **-I assume you know how to get it, if not google it or duck it :P**
 
