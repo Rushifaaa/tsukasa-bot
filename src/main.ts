@@ -33,7 +33,7 @@ export interface ServerConfig {
     adminId?: string | null;
     autorole: {
         active: boolean;
-        role_id?: string;
+        roleId?: string;
     };
     volume: number;
     prefix?: string | null;
@@ -166,10 +166,10 @@ tsukasa.on('guildMemberAdd', async member => {
     console.log(serverConfig);
 
     if (!serverConfig.autorole.active) return;
-    if (!serverConfig.autorole.role_id) return;
+    if (!serverConfig.autorole.roleId) return;
 
     try {
-        const guildMember = await member.addRole(serverConfig.autorole.role_id);
+        const guildMember = await member.addRole(serverConfig.autorole.roleId);
         console.log("Autorole:", guildMember);
     } catch (err) {
         console.log("An error occurred! -> " + err);
