@@ -8,21 +8,21 @@ const permissionCheck = (msg: Message): boolean => {
         return false;
     }
 
-    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
+    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json").toString());
 
     if (!serverConfig) {
         msg.reply("please contact the Developer. Developer -> †git / Error -> ServerConfigs are not Created");
         return false;
     }
 
-    if (!serverConfig.admin_id) {
+    if (!serverConfig.adminId) {
         msg.reply("please set a role to grant permissions for managing this bot. †admin [role_id] -> [role_id] should be the id of the role that should manage this Bot.")
         return false;
     }
 
 
-    if (!msg.member.roles.has(serverConfig.admin_id)) {
-        msg.reply(msg.member.roles.get(serverConfig.admin_id));
+    if (!msg.member.roles.has(serverConfig.adminId)) {
+        msg.reply(msg.member.roles.get(serverConfig.adminId));
         msg.reply("you don't have permissions to perform this command!");
         return false;
     }

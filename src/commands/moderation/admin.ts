@@ -13,7 +13,7 @@ const admin = (args: string[], msg: Message) => {
         return;
     }
 
-    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
+    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json").toString());
 
     if (!serverConfig) {
         msg.reply("please contact the Developer. Developer -> " + prefix + "git / Error -> ServerConfigs are not Created");
@@ -27,15 +27,15 @@ const admin = (args: string[], msg: Message) => {
     }
 
     let newServerConfig: ServerConfig = {
-        server_id: msg.guild.id,
-        admin_id: args[0],
+        serverId: msg.guild.id,
+        adminId: args[0],
         autorole: {
             active: false,
         },
         volume: serverConfig.volume
     }
 
-    writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
+    writeFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
     msg.reply("I've updated the server config -> " + "`" + JSON.stringify(newServerConfig) + "`");
 
 }

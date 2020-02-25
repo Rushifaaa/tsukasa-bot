@@ -14,9 +14,10 @@ import admin from "./commands/moderation/admin";
 import clearChat from './commands/moderation/clearChat';
 import volume from "./commands/music/volume";
 import skip from "./commands/music/skip";
+import role from "./commands/moderation/role";
 
 export class Command {
-
+    
     constructor(readonly name: string, readonly aliases: string[], readonly func: (args: string[], msg: Message, guildData: Map<string, GuildData>) => number | Promise<any> | void | boolean) {
         //EMPTY....
     }
@@ -30,6 +31,7 @@ export class Command {
 
 export const commands = [
     //TODO: Help command
+    new Command("role", [], role),
     new Command("ping", ["test"], ping),
     new Command("join", ["j"], join),
     new Command("stop", ["st"], stop),

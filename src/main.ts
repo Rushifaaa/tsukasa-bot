@@ -1,12 +1,16 @@
-import { Client, StreamDispatcher, Guild, TextChannel, GroupDMChannel, DMChannel } from 'discord.js';
+import { Client, Guild, TextChannel, GroupDMChannel, DMChannel, StreamDispatcher } from 'discord.js';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { commands } from './command';
 import { Song } from './commands/music/play';
 
 const tsukasa = new Client();
 
+// The Path for the config File
 export const configFilePath = __dirname + "/../config.json";
+
+// Default Prefix
 export const prefix = "†";
+
 export let tsukasaConfig: TsukasaConfig | null = null;
 export const guildObjects = new Map<string, GuildData>();
 
@@ -19,14 +23,14 @@ export interface GuildData {
 
 export interface TsukasaConfig {
     token: string;
-    owner_id: string;
-    data_folder: string;
-    google_api_key: string;
+    ownerId: string;
+    dataFolder: string;
+    googleApiKey: string;
 }
 
 export interface ServerConfig {
-    server_id: string;
-    admin_id?: string | null;
+    serverId: string;
+    adminId?: string | null;
     autorole: {
         active: boolean;
         role_id?: string;
@@ -36,9 +40,83 @@ export interface ServerConfig {
 
 }
 
+async function startServer(): Promise<void> {
+
+    // Checking if the config file exists
+    if (!existsSync(configFilePath)) {
+
+        // Creating new TsukasaConfig
+        const newConfig: TsukasaConfig = {
+            token: "TOKEN",
+            ownerId: "Your Discord-ID",
+            dataFolder: "Please enter a desired path for the data folder",
+            googleApiKey: "Please enter a google API key for playlist support"
+        };
+
+        // Writing the File to the Filepath
+        writeFileSync(configFilePath, JSON.stringify(newConfig));
+        console.log("Config file was created, please set up!");
+        return;
+    }
+
+    try {
+        tsukasaConfig = JSON.parse(readFileSync(configFilePath).toString());
+        if (!tsukasaConfig) return;
+
+        tsukasa.login(tsukasaConfig.token);
+    } catch (error) {
+        console.log("Fix config file please, could be empty?", error);
+    }
+}
+
+function createFolders(tsukasaConfig: TsukasaConfig | null, guild: Guild, config: ServerConfig): void {
+
+    // Checking if the tsukasaConfig exists
+    if (tsukasaConfig) {
+        // Checking if the User wrote a path to the Data folder
+        if (tsukasaConfig.dataFolder) {
+            // If the data folder does not exist it will make one
+            if (!existsSync(tsukasaConfig.dataFolder)) {
+
+                console.log("Data folder not found... Creating one..");
+                mkdirSync(tsukasaConfig.dataFolder);
+                console.log("Data Folder created!");
+
+                // recursive
+                createFolders(tsukasaConfig, guild, config);
+
+            } else { // If the data folder does exist it will create the guild folders
+
+                // Checking if the guild folder doesn't exist to create one
+                if (!existsSync(tsukasaConfig.dataFolder + "/" + guild.id)) {
+                    mkdirSync(tsukasaConfig.dataFolder + "/" + guild.id);
+                    writeFileSync(tsukasaConfig.dataFolder + "/" + guild.id + "/config.json", JSON.stringify(config));
+                    console.log("The Folder for", guild.name + "/" + guild.id, "\x1b[0m", "was successfully created!");
+                    return;
+                }
+
+                // Checking if the config file doesn't exist to create one
+                if (!existsSync(tsukasaConfig.dataFolder + "/" + guild.id + "/config.json")) {
+                    writeFileSync(tsukasaConfig.dataFolder + "/" + guild.id + "/config.json", JSON.stringify(config));
+                    console.log("The Config file for", '\x1b[36m%s\x1b[0m', guild.name + "/" + guild.id, "\x1b[0m", "was successfully created!");
+                    return;
+                }
+
+            }
+
+        } else {
+            console.log("No path found -> " + tsukasaConfig.dataFolder);
+        }
+    } else {
+        console.log("Bot config not found... please contact the developer!");
+    }
+
+}
+
 tsukasa.on('ready', () => {
     console.log(`Logged in as ${tsukasa.user.tag}`);
 
+    // Setting for every Guild empty GuildObjects and ServerConfig
     tsukasa.guilds.forEach(guild => {
         guildObjects.set(guild.id, {
             dispatcher: null,
@@ -46,21 +124,22 @@ tsukasa.on('ready', () => {
             songs: []
         });
 
-        let config: ServerConfig = {
-            server_id: guild.id,
-            admin_id: null,
+        const config: ServerConfig = {
+            serverId: guild.id,
+            adminId: null,
             autorole: {
                 active: false
             },
             volume: 0.15,
             prefix: null
-        }
+        };
 
         //TODO: Music Default Channel where bot writes his messages for next song
 
+        // Calling the method to create Folders 
         createFolders(tsukasaConfig, guild, config);
 
-    })
+    });
 
     tsukasa.user.setPresence({
         status: "dnd",
@@ -79,11 +158,11 @@ tsukasa.on("guildCreate", guild => {
         isStoped: false,
         songs: []
     });
-})
+});
 
 tsukasa.on('guildMemberAdd', async member => {
     if (!tsukasaConfig) return;
-    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + member.guild.id + "/config.json").toString());
+    const serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + member.guild.id + "/config.json").toString());
     console.log(serverConfig);
 
     if (!serverConfig.autorole.active) return;
@@ -101,7 +180,7 @@ tsukasa.on('guildMemberAdd', async member => {
 
 tsukasa.on('message', msg => {
     if (!tsukasaConfig) return;
-    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.member.guild.id + "/config.json").toString());
+    const serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + msg.member.guild.id + "/config.json").toString());
 
     let args = msg.content.slice(prefix.length).trim().split(/ +/s);
 
@@ -123,7 +202,7 @@ tsukasa.on('message', msg => {
 
         if (cmd.name !== commandName && !cmd.aliases.includes(commandName)) continue;
 
-        commandFound = true
+        commandFound = true;
         const retNumber = cmd.invoke(args, msg, guildObjects);
         console.log(`The user ${msg.author.id}/${msg.author.username} executed the command "${commandName}" with args: ${args[0] ? args[0] : "null"}.`);
         if (retNumber === 1) {
@@ -136,66 +215,4 @@ tsukasa.on('message', msg => {
     }
 });
 
-async function startServer() {
-    let newConfig: TsukasaConfig = {
-        token: "TOKEN",
-        owner_id: "Your Discord-ID",
-        data_folder: "Please enter a desired path for the data folder",
-        google_api_key: "Please enter a google API key for playlist support"
-    };
-
-    if (!existsSync(configFilePath)) {
-        writeFileSync(configFilePath, JSON.stringify(newConfig));
-        console.log("Config file was created, please set up!")
-        return;
-    }
-
-    try {
-        tsukasaConfig = JSON.parse(readFileSync(configFilePath).toString());
-        if (!tsukasaConfig) return;
-
-        tsukasa.login(tsukasaConfig.token);
-    } catch (error) {
-        console.log("Fix config file please, could be empty?", error);
-    }
-}
-
-function createFolders(tsukasaConfig: TsukasaConfig | null, guild: Guild, config: ServerConfig) {
-
-    if (tsukasaConfig) {
-        if (tsukasaConfig.data_folder) {
-            if (!existsSync(tsukasaConfig.data_folder)) {
-
-                console.log("Data folder not found... Creating one..");
-                mkdirSync(tsukasaConfig.data_folder);
-                console.log("Data Folder created!");
-
-                // recursive
-                createFolders(tsukasaConfig, guild, config);
-            } else {
-
-                if (!existsSync(tsukasaConfig.data_folder + "/" + guild.id)) {
-                    mkdirSync(tsukasaConfig.data_folder + "/" + guild.id);
-                    writeFileSync(tsukasaConfig.data_folder + "/" + guild.id + "/config.json", JSON.stringify(config));
-                    console.log("The Folder for", '\x1b[36m%s\x1b[0m', guild.name + "/" + guild.id, "\x1b[0m", "was successfully created!");
-                    return;
-                }
-
-                if (!existsSync(tsukasaConfig.data_folder + "/" + guild.id + "/config.json")) {
-                    writeFileSync(tsukasaConfig.data_folder + "/" + guild.id + "/config.json", JSON.stringify(config));
-                    console.log("The Config file for", '\x1b[36m%s\x1b[0m', guild.name + "/" + guild.id, "\x1b[0m", "was successfully created!");
-                    return;
-                }
-
-            }
-
-        } else {
-            console.log("No path found -> " + tsukasaConfig.data_folder);
-        }
-    } else {
-        console.log("Bot config not found... please contact the developer!");
-    }
-
-}
-
-startServer()
+startServer();

@@ -18,7 +18,7 @@ const autorole = (args: string[], msg: Message) => {
         return false;
     }
 
-    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
+    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json").toString());
 
     if (!serverConfig) {
         msg.reply("please contact the Developer. Developer -> " + prefix + "git / Error -> ServerConfigs are not Created");
@@ -39,8 +39,8 @@ const autorole = (args: string[], msg: Message) => {
         }
 
         let newServerConfig: ServerConfig = {
-            server_id: msg.guild.id,
-            admin_id: serverConfig.admin_id,
+            serverId: msg.guild.id,
+            adminId: serverConfig.adminId,
             autorole: {
                 active: serverConfig.autorole.active,
                 role_id: args[1]
@@ -48,7 +48,7 @@ const autorole = (args: string[], msg: Message) => {
             volume: serverConfig.volume
         }
 
-        writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
+        writeFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
         msg.reply("default role was set.");
         return;
     }
@@ -75,8 +75,8 @@ const autorole = (args: string[], msg: Message) => {
         }
 
         let newServerConfig: ServerConfig = {
-            server_id: msg.guild.id,
-            admin_id: serverConfig.admin_id,
+            serverId: msg.guild.id,
+            adminId: serverConfig.adminId,
             autorole: {
                 active: shouldActivate,
                 role_id: serverConfig.autorole.role_id
@@ -84,7 +84,7 @@ const autorole = (args: string[], msg: Message) => {
             volume: serverConfig.volume
         }
 
-        writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
+        writeFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
 
     }
 

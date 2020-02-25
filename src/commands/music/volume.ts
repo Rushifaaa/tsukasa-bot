@@ -36,7 +36,7 @@ const volume = (args: string[], msg: Message, guildData: Map<string, GuildData>)
         return;
     }
 
-    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
+    let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json").toString());
 
     const volumeValue = +args[0];
 
@@ -50,14 +50,14 @@ const volume = (args: string[], msg: Message, guildData: Map<string, GuildData>)
     }
 
     let newServerConfig: ServerConfig = {
-        server_id: serverConfig.server_id,
+        serverId: serverConfig.serverId,
         autorole: serverConfig.autorole,
         volume: volumeValue / 100,
-        admin_id: serverConfig.admin_id,
+        adminId: serverConfig.adminId,
         prefix: serverConfig.prefix
     }
 
-    writeFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
+    writeFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json", JSON.stringify(newServerConfig));
 
     guild.dispatcher.setVolumeLogarithmic(newServerConfig.volume);
 

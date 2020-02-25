@@ -19,7 +19,7 @@ const play = async (args: string[], msg: Message, guildObjects: Map<string, Guil
         return;
     }
 
-    const youtube = new YouTube(tsukasaConfig.google_api_key);
+    const youtube = new YouTube(tsukasaConfig.googleApiKey);
 
     if (msg.channel.type === "dm") {
         msg.channel.send("Is just available on a Server!");
@@ -157,7 +157,7 @@ function playSong(guild: GuildData, vc: VoiceChannel, msg: Message) {
                 console.log(error);
             });
 
-        let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.data_folder + "/" + msg.guild.id + "/config.json").toString());
+        let serverConfig: ServerConfig = JSON.parse(readFileSync(tsukasaConfig.dataFolder + "/" + msg.guild.id + "/config.json").toString());
         guild.dispatcher.setVolumeLogarithmic(serverConfig.volume);
 
     } else {

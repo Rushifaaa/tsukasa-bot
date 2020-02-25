@@ -14,7 +14,7 @@ const quit = (args: string[], msg: Message) => {
 
         console.log();
 
-        if (msg.author.id === config.owner_id) {
+        if (msg.author.id === config.ownerId) {
             msg.member.voiceChannel.leave();
             return 1;
         }
